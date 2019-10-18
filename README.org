@@ -11,7 +11,7 @@
   The LVL cluster uses [[https://slurm.schedmd.org][Slurm]] to handle compute job scheduling and resource
   allocation.  All resource intesive tasks *must* use the scheduling system.
 
-  The command [[https://slurm.schedmd.com/sbatch.html][=sbatch=]] is used to submit batch jobs to the scheduler. This is
+  The command =sbatch= is used to submit batch jobs to the scheduler. This is
   the most common way to run tasks on the cluster. A batch job is described by a
   batch script and the command-line arguments to =sbatch=. 
 
