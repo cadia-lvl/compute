@@ -1,11 +1,25 @@
-* Language and Voice Laboratory Computing Resources
-** Introduction
-   The Language and Voice Laboratory (HR) runs a tiny computing "cluster" called
-   Terra.  This cluster consists of a few physical nodes, =terra=, =torpaq= and
-   =gaia=.
+#+TITLE: Language and Voice Laboratory Computing Resources
 
-** Getting access and logging in
-   Access is granted by request by a sysadmin in the LVL.  
+* Table of Contents                                               :TOC:QUOTE:
+#+BEGIN_QUOTE
+- [[#introduction][Introduction]]
+- [[#scheduler][Scheduler]]
+- [[#storage][Storage]]
+- [[#containers][Containers]]
+  - [[#examples][Examples]]
+#+END_QUOTE
+
+* Introduction
+  The Language and Voice Laboratory (HR) runs a tiny computing "cluster" called
+  Terra.  This cluster consists of a few physical nodes, =terra=, =torpaq= and
+  =gaia=.
+
+  Access is granted by request by a sysadmin in the LVL.  Once you have a user
+  account you can log into the main node:
+
+  #+begin_src shell
+  ssh user@terra.hir.is
+  #+end_src
 
 * Scheduler
   The LVL cluster uses [[https://slurm.schedmd.org][Slurm]] to handle compute job scheduling and resource
@@ -30,7 +44,7 @@
 
   We send this job to the scheduler with
   #+begin_src
-  $ sbatch example-job.sbatch
+  sbatch example-job.sbatch
   #+end_src
 
   This defines a job that will request two NVidia Titan X GPUs, 12 GB of memory
