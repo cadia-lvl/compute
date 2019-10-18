@@ -1,6 +1,150 @@
-* Using Slurm
-** Using Kaldi with Slurm
-   Kaldi comes with a Slurm wrapper =utils/slurm.pl= which can be used as the
+* Using SLURM
+  This documents has usage examples and detailed information about using SLURM
+  on Terra.
+
+** Available partitions
+   The scheduler currently has two partitions, which are meant for different
+   purposes.
+
+   | Partition   | Description |
+   |-------------+-------------|
+   | shared      | TBD         |
+   | longrunning | TBD         |
+   |-------------+-------------|
+
+** "Fat" jobs
+   If a job you are submitting uses a large number of CPUs for processing some
+   data, you should consider whether you have data parallelism. Such jobs should
+   use smaller array jobs. For example:
+
+   Generate some faux data:
+
+   #+begin_src shell :results none
+   for i in {1..100}; do echo $i >> data.txt; done
+   #+end_src
+
+   Then, create a batch script named =split_data_100.sbatch= for splitting:
+
+   #+begin_src bash
+   #!/bin/bash
+   #SBATCH --job-name=split_data_100
+   #SBATCH -p shared
+   #SBATCH --mem-per-cpu=4G
+   #SBATCH --time=00:30:00
+   #SBATCH --output=split_data_100_%J.log  # %J is job ID
+   sleep 30
+   split --numeric-suffixes=1 -n100 --additional-suffix=.txt data.txt data.
+   #+end_src
+   
+   And submit the batch script:
+
+   #+begin_src shell :exports both :eval never-export
+   sbatch split_data_100.sbatch
+   #+end_src
+
+   #+RESULTS:
+   : Submitted batch job 854907
+
+   For real data this might take some time, and we don't want to wait, so we can
+   submit the next job with a dependency on it. Call this next one
+   =example_array_job.sbatch=:
+
+   #+begin_src bash
+   #!/bin/bash
+   #SBATCH --job-name=example_array_job
+   #SBATCH --mem-per-cpu=1G
+   #SBATCH --time=00:10:00  # 10 min timelimit, setting a short timelimit decreases wait time in the queue
+   #SBATCH --output=example_array_job_log.%A_%a.log  # %a is array index, %A is job ID
+   #SBATCH --array=1-100%5  # 100 array task, max 5 running concurrently (i.e. limits IO)
+   J=$(printf "%03d" $SLURM_ARRAY_TASK_ID)
+   # python my_process_data_script.py data.${J}.txt > processed_data.${J}.txt
+
+   sleep 20
+   cat data.${J}.txt >processed_data.${J}.txt
+   #+end_src
+
+   And submit it with a dependency on the first one:
+   
+   #+begin_src shell :exports both :eval never-export
+   split_job_id=$(squeue --noheader --format=%i --name=split_data_100)
+   sbatch --dependency=afterok:${split_job_id} example_array_job.sbatch
+   #+end_src
+
+   #+RESULTS:
+   : Submitted batch job 854908
+
+   Check to see what the queue looks like:
+   #+begin_src shell :exports both :eval never-export
+   squeue
+   #+end_src
+   
+   #+RESULTS:
+   :             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+   :  854908_[1-100%5]    shared example_  rkjaran PD       0:00      1 (Dependency)
+   :            854907    shared split_da  rkjaran  R       0:12      1 terra
+
+   Then check again once the split job has finished:
+
+   #+begin_src shell :exports both :eval never-export
+   squeue
+   #+end_src
+   
+   #+RESULTS:
+   :             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+   :  854908_[6-100%5]    shared example_  rkjaran PD       0:00      1 (JobArrayTaskLimit)
+   :          854908_1    shared example_  rkjaran  R       0:17      1 terra
+   :          854908_2    shared example_  rkjaran  R       0:17      1 terra
+   :          854908_3    shared example_  rkjaran  R       0:17      1 terra
+   :          854908_4    shared example_  rkjaran  R       0:17      1 terra
+   :          854908_5    shared example_  rkjaran  R       0:17      1 terra
+
+** Using GPUs
+   In SLURM-land GPUs are a GRES (Generic RESource). A job will not be allocated
+   a GRES unless requested with the =--gres= option to =sbatch= or =srun=. A
+   GRES resource specifier has the format =name[:type[:count]]=. For example, to
+   request a single GPU of any type for an interactive job:
+   #+begin_src shell
+   srun -p shared --gres=gpu:1 --pty /bin/bash
+   #+end_src
+
+   For a batch job, a SLURM directive is sometimes a better choice:
+   #+name: my-gpu-slurm-job.sbatch
+   #+begin_example
+   #!/bin/bash
+   #SBATCH -p shared
+   #SBATCH --gres=gpu:1
+   #SBATCH --mem=11G
+   #SBATCH --output=cool-model-log.log
+
+   python train-my-cool-model.py
+   #+end_example
+   
+   Which can schedule like so:
+   #+begin_src shell
+   sbatch my-gpu-slurm-job.sbatch
+   #+end_src
+   
+   Using =sinfo= we can discover what GPUs are available:
+   #+begin_src shell :results output :exports both :eval never-export
+   sinfo -O partition,nodelist,gres:30
+   #+end_src
+
+   #+RESULTS:
+   : PARTITION           NODELIST            GRES                          
+   : shared*             gaia                (null)                        
+   : shared*             terra               gpu:titanx:2,gpu:gtx1080ti:4  
+   : shared*             torpaq              gpu:rtx2080ti:4               
+   : longrunning         gaia                (null)                        
+   : longrunning         torpaq              gpu:rtx2080ti:4               
+   : login               gaia                (null)                        
+
+   And we can now request a specific type of GPU. For our interactive job we want two RTX 2080Ti GPUs:
+   #+begin_src shell :results none
+   srun -p shared --gres=gpu:rtx2080ti:1 --pty /bin/bash
+   #+end_src
+
+** Using Kaldi with SLURM
+   Kaldi comes with a SLURM wrapper =utils/slurm.pl= which can be used as the
    =cmd= script. Put the following in =conf/slurm.conf=:
 
    #+begin_src

@@ -42,7 +42,7 @@
   We can use =sacct= to see the job history and =squeue= to see queued and
   running jobs.
     
-   - [[file:slurm-usage.org][Learn more]]
+   - [[./slurm-usage.org][Learn more]]
    - [[https://slurm.schedmd.com/pdfs/summary.pdf][Cheatsheet]]
 
 * Storage
