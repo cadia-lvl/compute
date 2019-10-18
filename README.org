@@ -1,4 +1,71 @@
-#+TITLE: Language and Voice Laboratory Computing Resources
-* Getting access and logging in
+* Language and Voice Laboratory Computing Resources
+** Introduction
+   The Language and Voice Laboratory (HR) runs a tiny computing "cluster" called
+   Terra.  This cluster consists of a few physical nodes, =terra=, =torpaq= and
+   =gaia=.
+
+** Getting access and logging in
+   Access is granted by request by a sysadmin in the LVL.  
+
 * Scheduler
+  The LVL cluster uses [[https://slurm.schedmd.org][Slurm]] to handle compute job scheduling and resource
+  allocation.  All resource intesive tasks *must* use the scheduling system.
+
+  The command [[https://slurm.schedmd.com/sbatch.html][=sbatch=]] is used to submit batch jobs to the scheduler. This is
+  the most common way to run tasks on the cluster. A batch job is described by a
+  batch script and the command-line arguments to =sbatch=. 
+
+  A batch script is a bash script with some special preprocessor directives, as
+  seen in the example below.
+
+  #+begin_src bash
+  #!/bin/bash
+  #SBATCH --gres=gpu:titanx:2
+  #SBATCH --mem=12G
+  #SBATCH --output=test-sbatch.log
+  echo "I have these GPUs:" $CUDA_VISIBLE_DEVICES
+  echo "On this machine" $(hostname)
+  exit 0
+  #+end_src
+
+  We send this job to the scheduler with
+  #+begin_src
+  $ sbatch example-job.sbatch
+  #+end_src
+
+  This defines a job that will request two NVidia Titan X GPUs, 12 GB of memory
+  and write stdout/stderr to the file =test-sbatch.log= in the current
+  directory. Once the scheduler is able to allocate the necessary resources it
+  will execute the job, writing the IDs of the allocated GPUs and the hostname
+  of the allocated node to =test-sbatch.log=.
+
+  We can use =sacct= to see the job history and =squeue= to see queued and
+  running jobs.
+    
+   - [[file:slurm-usage.org][Learn more]]
+   - [[https://slurm.schedmd.com/pdfs/summary.pdf][Cheatsheet]]
+
 * Storage
+  There are a few file systems available on Terra. *None of these are backed
+  up*. All, except =/scratch=, are raided for fault-tolerance.
+
+  | Mount path   | Purpose                                                   | Size    | Speed                       | local node |
+  |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
+  | /data        | Shared datasets and archives. Read-only for users.        | 1.8 TiB | Fast reads & slow writes    | terra      |
+  | /scratch     | "Unimportant" temporary files with many writes and reads. | 2 TiB   | Fastest                     | terra      |
+  | /mnt/scratch | Links to /scratch for legacy reasons                      |         |                             |            |
+  | /work        | More important temporary files                            | 3.4 TiB | Fastest reads & fast writes | torpaq     |
+  | /home        | Code, configuration files, etc,                           | 5.4T    | Slow                        | terra      |
+  |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
+
+* Containers
+  [[https://sylabs.io/singularity/][Singularity]] ([[https://sylabs.io/singularity/faq/][FAQ]]) is a container solution for scientific computing that allows
+  unprivileged use of containers. Singularity supports building its own images
+  from scratch and ready-made Docker images.
+
+  A user can build their own containerized application/project which can be run
+  in a Slurm batch job.
+
+** Examples
+   Coming soon
+    

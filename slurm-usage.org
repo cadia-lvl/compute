@@ -1,0 +1,28 @@
+* Using Slurm
+** Using Kaldi with Slurm
+   Kaldi comes with a Slurm wrapper =utils/slurm.pl= which can be used as the
+   =cmd= script. Put the following in =conf/slurm.conf=:
+
+   #+begin_src
+   command sbatch --export=PATH  --ntasks-per-node=1
+   option time=* --time $0
+   option mem=* --mem-per-cpu $0
+   option mem=0            # Do not add anything to qsub_opts
+   option num_threads=* --cpus-per-task $0 --ntasks-per-node=1
+   option num_threads=1 --cpus-per-task 1 --ntasks-per-node=1 
+   default gpu=0
+   option gpu=0
+   option gpu=* --gres=gpu:$0  # This has to be figured out
+   # note: the --max-jobs-run option is supported as a special case
+   # by slurm.pl and you don't have to handle it in the config file.
+   #+end_src
+
+   and the following in cmd.sh (or something similar):
+   #+begin_src
+   export train_cmd="utils/slurm.pl --mem 6G --time 05:00:00"
+   export decode_cmd="utils/slurm.pl --mem 4G"
+   export mkgraph_cmd="utils/slurm.pl --mem 4G"
+   export big_memory_cmd="utils/slurm.pl --mem 8G"
+   export cuda_cmd="utils/slurm.pl --gpu 1"
+   #+end_src
+
