@@ -51,7 +51,7 @@
   #+RESULTS:
   : Submitted batch job 854907
 
-  For real data this might take some time, and we don't want to wait, so we can
+  For real data this might take some time, and you don't want to wait, so you can
   submit the next job with a dependency on it. Call this next one
   =example_array_job.sbatch=:
 
