@@ -10,7 +10,7 @@
 #+END_QUOTE
 
 * Introduction
-  The Language and Voice Laboratory (HR) runs a tiny computing "cluster" called
+  The Language and Voice Laboratory (LVL) runs a tiny computing "cluster" called
   Terra.  This cluster consists of a few physical nodes, =terra=, =torpaq= and
   =gaia=.
 
@@ -23,7 +23,7 @@
 
 * Scheduler
   The LVL cluster uses [[https://slurm.schedmd.org][Slurm]] to handle compute job scheduling and resource
-  allocation.  All resource intesive tasks *must* use the scheduling system.
+  allocation.  All resource intensive tasks *must* use the scheduling system.
 
   The command =sbatch= is used to submit batch jobs to the scheduler. This is
   the most common way to run tasks on the cluster. A batch job is described by a
@@ -69,7 +69,7 @@
   | /scratch     | "Unimportant" temporary files with many writes and reads. | 2 TiB   | Fastest                     | terra      |
   | /mnt/scratch | Links to /scratch for legacy reasons                      |         |                             |            |
   | /work        | More important temporary files                            | 3.4 TiB | Fastest reads & fast writes | torpaq     |
-  | /home        | Code, configuration files, etc,                           | 5.4T    | Slow                        | terra      |
+  | /home        | Code, configuration files, etc                            | 5.4T    | Slow                        | terra      |
   |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
 
 * Containers
