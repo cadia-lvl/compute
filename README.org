@@ -6,7 +6,7 @@
 - [[#scheduler][Scheduler]]
 - [[#storage][Storage]]
 - [[#containers][Containers]]
-  - [[#examples][Examples]]
+- [[#jupyter-notebooks-jupyterhub][Jupyter Notebooks (JupyterHub)]]
 #+END_QUOTE
 
 * Introduction
@@ -21,9 +21,13 @@
   ssh user@terra.hir.is
   #+end_src
 
+  Any questions additional questions can be asked on the =#terra= channel on
+  [[https://romur.slack.com][Slack]].
+
 * Scheduler
   The LVL cluster uses [[https://slurm.schedmd.org][Slurm]] to handle compute job scheduling and resource
-  allocation.  All resource intensive tasks *must* use the scheduling system.
+  allocation.  All resource intensive tasks *must* use the scheduling system,
+  and please refrain from requesting way more resources than is necessary.
 
   The command =sbatch= is used to submit batch jobs to the scheduler. This is
   the most common way to run tasks on the cluster. A batch job is described by a
@@ -65,7 +69,7 @@
 
   | Mount path   | Purpose                                                   | Size    | Speed                       | local node |
   |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
-  | /data        | Shared datasets and archives. Read-only for users.        | 1.8 TiB | Fast reads & slow writes    | terra      |
+  | /data        | Shared datasets and archives. Read-only for users.        | 2.7 TiB | Fast reads & slow writes    | terra      |
   | /scratch     | "Unimportant" temporary files with many writes and reads. | 2 TiB   | Fastest                     | terra      |
   | /mnt/scratch | Links to /scratch for legacy reasons                      |         |                             |            |
   | /work        | More important temporary files                            | 3.4 TiB | Fastest reads & fast writes | torpaq     |
@@ -77,9 +81,19 @@
   unprivileged use of containers. Singularity supports building its own images
   from scratch and ready-made Docker images.
 
-  A user can build their own containerized application/project which can be run
-  in a Slurm batch job.
+  A user can build their own containerized application/project on there own
+  machines which can be run on Terra in a Slurm batch job.
 
-** Examples
-   Coming soon
-    
+* Jupyter Notebooks (JupyterHub)
+  Jupyter notebooks have become a popular way of doing scientific computing and
+  interactive machine learning.
+
+  LVL runs a JupyterHub accessible at https://terra.hir.is (RU intranet, you'll
+  have to accept the self-signed cert) which allows users to spin up notebook
+  servers through Slurm.
+
+  The notebook server runs in a container using an image with a Python 3.7 Conda
+  base environment. The /Conda/ tab allows you to create new environment, and
+  new packages can be added to the envirment through the UI or in a notebook
+  using the environment.
+
