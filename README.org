@@ -7,6 +7,7 @@
 - [[#storage][Storage]]
 - [[#containers][Containers]]
 - [[#jupyter-notebooks-jupyterhub][Jupyter Notebooks (JupyterHub)]]
+- [[#installing-software][Installing software]]
 #+END_QUOTE
 
 * Introduction
@@ -93,7 +94,43 @@
   servers through Slurm.
 
   The notebook server runs in a container using an image with a Python 3.7 Conda
-  base environment. The /Conda/ tab allows you to create new environment, and
-  new packages can be added to the envirment through the UI or in a notebook
-  using the environment.
+  base environment. The /Conda/ tab allows you to create new environments, and
+  new packages can be added to enviroments through the UI or in a notebook using
+  a specific environment.
 
+* Installing software
+  An easy way for a user to install necessary tools and libraries, other than
+  compiling things yourself, is to use the Conda package manager.
+
+  To use it you first have to add it to your environment:
+
+  #+begin_src shell
+  source /data/tools/anaconda/etc/profile.d/conda.sh
+  #+end_src
+
+  Then, to always have conda available you can add it to your bash profile with:
+
+  #+begin_src shell
+  conda init
+  #+end_src
+
+  Let's say that for some reason you need to use =pdftotext= from
+  =poppler-utils=, then you can create and environment specifically for that:
+  #+begin_src shell
+  conda create -n pdf-stuff poppler-utils
+  #+end_src
+
+  This will create an environment named =pdf-stuff= with the package
+  =poppler-utils= and all of its dependencies installed. To activate it you run:
+  #+begin_src shell
+  conda activate pdf-stuff
+  #+end_src
+
+  To verify that it has been loaded:
+  #+begin_src shell :eval never-export
+  whereis pdftotext
+  #+end_src
+
+  #+RESULTS:
+  : pdftotext: /home/staff/rkjaran/.conda/envs/test-poppler-env/bin/pdftotext
+  
