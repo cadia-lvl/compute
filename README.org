@@ -5,6 +5,7 @@
 - [[#introduction][Introduction]]
 - [[#scheduler][Scheduler]]
 - [[#storage][Storage]]
+- [[#useful-places][Useful places]]
 - [[#containers][Containers]]
 - [[#jupyter-notebooks-jupyterhub][Jupyter Notebooks (JupyterHub)]]
 - [[#installing-software][Installing software]]
@@ -70,12 +71,24 @@
 
   | Mount path   | Purpose                                                   | Size    | Speed                       | local node |
   |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
-  | /data        | Shared datasets and archives. Read-only for users.        | 2.7 TiB | Fast reads & slow writes    | terra      |
+  | /data        | Shared datasets, models and archives. Read-only for users.        | 2.7 TiB | Fast reads & slow writes    | terra      |
   | /scratch     | "Unimportant" temporary files with many writes and reads. | 2 TiB   | Fastest                     | terra      |
   | /mnt/scratch | Links to /scratch for legacy reasons                      |         |                             |            |
   | /work        | More important temporary files                            | 3.4 TiB | Fastest reads & fast writes | torpaq     |
   | /home        | Code, configuration files, etc                            | 5.4T    | Slow                        | terra      |
   |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
+
+* Useful places
+  Users have access to a few read-only folders on Terra.
+  These places are meant to store frequently used corpora, models and tools.
+
+  | Path         | Purpose                                          |
+  |--------------+--------------------------------------------------|
+  | /data        | Datasets and data used by and created by LVL |
+  | /models      | Pretrained models from LVL or other sources      |
+  | /data/tools  | Shared tools and libraries                       |
+
+  If you want to add your own or additional data, models or libraries contact the admins.
 
 * Containers
   [[https://sylabs.io/singularity/][Singularity]] ([[https://sylabs.io/singularity/faq/][FAQ]]) is a container solution for scientific computing that allows
