@@ -80,7 +80,7 @@
 
 * Useful places
   Users have access to a few read-only folders on Terra.
-  These places are ment to store frequently used corpora, models and tools.
+  These places are meant to store frequently used corpora, models and tools.
 
   | Path         | Purpose                                          |
   |--------------+--------------------------------------------------|
