@@ -84,7 +84,7 @@
 
   | Path         | Purpose                                          |
   |--------------+--------------------------------------------------|
-  | /data        | Frequently used datasets and data created by LVL |
+  | /data        | Datasets and data used by and created by LVL |
   | /models      | Pretrained models from LVL or other sources      |
   | /data/tools  | Shared tools and libraries                       |
 
