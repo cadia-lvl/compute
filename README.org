@@ -5,6 +5,7 @@
 - [[#introduction][Introduction]]
 - [[#scheduler][Scheduler]]
 - [[#storage][Storage]]
+- [[#useful-places][Useful places]]
 - [[#containers][Containers]]
 - [[#jupyter-notebooks-jupyterhub][Jupyter Notebooks (JupyterHub)]]
 - [[#installing-software][Installing software]]
