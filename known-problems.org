@@ -1,0 +1,38 @@
+#+TITLE: Known Problems
+
+* GPUs not listed
+  When this happens nvidia-smi shows no listed GPUs.
+  There is supposed to be a daemon running that keeps the drivers online.
+  Sometimes this process fails or does not work properly. In that case we need to restart the daemon.
+
+** How to Fix
+  The daemon can be started by running: 
+
+  #+begin_src
+  nvidia-persistenced
+  #+end_src
+  
+  If the dawmon was never running in the first place this will succeed.
+  If the daemon was previously running and has stopped working this fails with:
+
+  #+begin_src
+  nvidia-persistenced failed to initialize. Check syslog for more details.
+  #+begin_src
+  
+  In that case syslog will most likely say:
+  #+begin_src
+  ... nvidia-persistenced: Failed to open PID file: File exists
+  ... nvidia-persistenced: Shutdown (5232)
+  #+begin_src
+  
+  Then we need to find the old process:
+  #+begin_src
+  ps aux | grep persistenced
+  #+begin_src
+  
+  and kill it:
+  
+  #+begin_src
+  kill <pid>
+  #+begin_src
+  
