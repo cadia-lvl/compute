@@ -80,11 +80,11 @@
 
 * Useful places
   Users have access to a few read-only folders on Terra.
-  These places are ment to store frequently used corpora, models and tools.
+  These places are meant to store frequently used corpora, models and tools.
 
   | Path         | Purpose                                          |
   |--------------+--------------------------------------------------|
-  | /data        | Frequently used datasets and data created by LVL |
+  | /data        | Datasets and data used by and created by LVL |
   | /models      | Pretrained models from LVL or other sources      |
   | /data/tools  | Shared tools and libraries                       |
 
