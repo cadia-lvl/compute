@@ -69,6 +69,12 @@
   There are a few file systems available on Terra. *None of these are backed
   up*. All, except =/scratch=, are raided for fault-tolerance.
 
+  Due to the nature of home, reading and writing to it slows Terra cluster down
+  for everyone. So, do most of your modelling work or intensive reading/writing
+  on /scratch or /work . Home should only be for your code repos, configuration
+  files, etc. Your model and data directories should always be on /scratch or
+  /work.
+
   | Mount path   | Purpose                                                   | Size    | Speed                       | local node |
   |--------------+-----------------------------------------------------------+---------+-----------------------------+------------|
   | /data        | Shared datasets, models and archives. Read-only for users.        | 2.7 TiB | Fast reads & slow writes    | terra      |
