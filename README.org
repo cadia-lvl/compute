@@ -13,8 +13,7 @@
 
 * Introduction
   The Language and Voice Laboratory (LVL) runs a tiny computing "cluster" called
-  Terra.  This cluster consists of a few physical nodes, =terra=, =torpaq= and
-  =gaia=.
+  Terra.  This cluster consists of two physical nodes, =terra= and =torpaq=.
 
   Access is granted by request by a sysadmin in the LVL.  Once you have a user
   account you can log into the main node:
@@ -25,6 +24,7 @@
 
   Any questions additional questions can be asked on the =#terra= channel on
   [[https://romur.slack.com][Slack]].
+  Short slideshow with examples and explinations is available [[https://docs.google.com/presentation/d/19eCrIxmAmAxD3t8mzboKjNVXm6O8tWP_gSNoS2xeXLk/edit?usp=sharing][here]].
 
 * Scheduler
   The LVL cluster uses [[https://slurm.schedmd.org][Slurm]] to handle compute job scheduling and resource
