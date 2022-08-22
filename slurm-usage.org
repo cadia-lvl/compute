@@ -14,9 +14,13 @@
 
   | Partition   | Description |
   |-------------+-------------|
-  | shared      | TBD         |
-  | longrunning | TBD         |
+  | shared      | For everyday jobs, testing and prototypes  |
+  | longrunning | For long running jobs |
   |-------------+-------------|
+
+* Time limits
+  The partitions have different time restrictions on jobs, shared has a maximum time limit of 2 days, while longrunning has a time limit of a little more than 14 days.
+  You can specify how long you want your job to be able to run using the time option (-t or --time). By default the time limit on longrunning is 4 hours.
 
 * "Fat" jobs
   If a job you are submitting uses a large number of CPUs for processing some
