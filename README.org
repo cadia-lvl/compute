@@ -22,7 +22,7 @@
   ssh user@terra.hir.is
   #+end_src
 
-  Any questions additional questions can be asked on the =#terra= channel on [[https://teams.microsoft.com/l/channel/19%3a4fd5a4ebe61049838ecbb7c30e9c60b6%40thread.tacv2/Compute?groupId=48a01a42-5054-47d1-8f80-e29fa31e2987&tenantId=94d92b60-e6fa-43c0-8005-e73e02812c34][Teams#Compute]].
+  Any questions additional questions can be asked on the =Compute= channel on [[https://teams.microsoft.com/l/channel/19%3a4fd5a4ebe61049838ecbb7c30e9c60b6%40thread.tacv2/Compute?groupId=48a01a42-5054-47d1-8f80-e29fa31e2987&tenantId=94d92b60-e6fa-43c0-8005-e73e02812c34][Teams]].
   
   A short slideshow with examples and explinations is available [[https://docs.google.com/presentation/d/19eCrIxmAmAxD3t8mzboKjNVXm6O8tWP_gSNoS2xeXLk/edit?usp=sharing][here]].
 
